@@ -1,4 +1,3 @@
-const path = require('path')
 const utils = require('../utils')
 module.exports = (req, res) => {
   // TODO 此处需要部署本应用时配置
@@ -6,7 +5,6 @@ module.exports = (req, res) => {
 
   const { project, version, repository, branch } = req.body || {}
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  debugger
   if (!project || !version) {
     res.send({
       code: 1,
