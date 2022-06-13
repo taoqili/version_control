@@ -20,7 +20,7 @@ module.exports = {
     shelljs.echo('clone end')
     shelljs.cd(tmpDir)
     shelljs.exec(`git checkout ${branch}`)
-    const { code: installCode } = shelljs.exec(`npm install`)
+    const { code: installCode } = shelljs.exec(`yarn install`)
     if (installCode !== 0) {
       res.send({code: 6, msg: '依赖安装失败，请重试'})
       return
