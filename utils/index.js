@@ -26,7 +26,7 @@ module.exports = {
       return
     }
     shelljs.echo('npm install end, start to build')
-    const { code: buildCode } = shelljs.exec(`npm run build:${env}`)
+    const { code: buildCode } = shelljs.exec(`yarn run build:${env}`)
     if (buildCode !== 0) {
       res.send({code: 8, msg: '构建失败，请重试'})
       return
