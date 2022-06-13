@@ -3,7 +3,7 @@ module.exports = (req, res) => {
   // TODO 此处需要部署本应用时配置
   const rootDir = '/var/www'
 
-  const { project, version, repository, branch } = req.body || {}
+  const { project, version, repository, branch, env='dev' } = req.body || {}
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   if (!project || !version) {
     res.send({
@@ -19,7 +19,8 @@ module.exports = (req, res) => {
       repository,
       branch,
       project,
-      version
+      version,
+      env
     })
   } catch (e) {
     res.send({
