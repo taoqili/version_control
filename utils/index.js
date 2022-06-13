@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const shelljs = require('shelljs')
 module.exports = {
-  addVersion({repository, branch, rootDir, project, version, res, env}) {
+  addVersion({product, repository, branch, rootDir, project, version, res, env}) {
     const targetDir = path.resolve(rootDir, project, version)
     const tmpDir = `./tmp/${project}`
     if (!shelljs.which('git')) {
@@ -26,7 +26,7 @@ module.exports = {
       return
     }
     shelljs.echo('npm install end, start to build')
-    const { code: buildCode } = shelljs.exec(`yarn run build:${env}`)
+    const { code: buildCode } = shelljs.exec(`yarn run build:${product === 'xuelei' ? env : 'eimos' + env}`)
     if (buildCode !== 0) {
       res.send({code: 8, msg: '构建失败，请重试'})
       return
