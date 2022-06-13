@@ -2,7 +2,7 @@ const path = require('path')
 const utils = require('../utils')
 module.exports = (req, res) => {
   // TODO 此处需要部署本应用时配置
-  const rootDir = path.resolve(__dirname, '../www')
+  const rootDir = '/var/www'
 
   const { project, version, repository, branch } = req.body || {}
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
