@@ -20,7 +20,7 @@ module.exports = {
     shelljs.echo('clone end')
     shelljs.cd(tmpDir)
     shelljs.exec(`git checkout ${branch}`)
-    const { code: installCode } = shelljs.exec(`npm install --production`)
+    const { code: installCode } = shelljs.exec(`npm install`)
     if (installCode !== 0) {
       res.send({code: 6, msg: '依赖安装失败，请重试'})
       return
