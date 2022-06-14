@@ -1,15 +1,11 @@
-const fs = require('fs')
 const path = require('path')
 const shelljs = require('shelljs')
 module.exports = {
-  addVersion({product, repository, branch, rootDir, project, version, res, env}) {
-    const targetDir = path.resolve(rootDir, project, version)
-    const tmpDir = `./tmp/${project}`
+  addVersion({project, repository, branch, rootDir, name, version, res, env}) {
+    const targetDir = path.resolve(rootDir, name, version)
+    const tmpDir = `./tmp/${name}`
     if (!shelljs.which('git')) {
-      res.send({
-        code: 3,
-        msg: '未安装GIT'
-      })
+      res.send({ code: 3, msg: '未安装GIT'})
       return
     }
     const { code } = shelljs.exec(`git clone ${repository} ${tmpDir}`)
@@ -26,7 +22,7 @@ module.exports = {
       return
     }
     shelljs.echo('npm install end, start to build')
-    const { code: buildCode } = shelljs.exec(`yarn run build:${product === 'xuelei' ? env : 'eimos' + env}`)
+    const { code: buildCode } = shelljs.exec(`yarn run build:${project === 'xuelei' ? env : 'eimos' + env}`)
     if (buildCode !== 0) {
       res.send({code: 8, msg: '构建失败，请重试'})
       return
@@ -34,7 +30,11 @@ module.exports = {
     shelljs.echo('build end')
     shelljs.rm('-rf', targetDir)
     shelljs.echo('rm targetDir end')
-    shelljs.cp('-R', project, targetDir)
+    const { code: copyCode } = shelljs.cp('-R', name, targetDir)
+    if (copyCode !==0 ) {
+      res.send({code: 9, msg: '复制文件失败，请检查目标文件夹是否存在'})
+      return
+    }
     shelljs.echo('copy end', targetDir)
     shelljs.cd('../../')
     shelljs.rm('-rf',tmpDir)

@@ -1,11 +1,9 @@
 const utils = require('../utils')
+const { deployRootDir } = require('../config')
 module.exports = (req, res) => {
-  // TODO 此处需要部署本应用时配置
-  const rootDir = '/var/www'
-
-  const { product, project, version, repository, branch, env = 'dev' } = req.body || {}
+  const { project, name, version, repository, branch, env = 'dev' } = req.body || {}
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  if (!project || !version) {
+  if (!name || !version) {
     res.send({
       code: 1,
       msg: '缺失必要的参数，请检查后重试！',
@@ -14,12 +12,12 @@ module.exports = (req, res) => {
   }
   try {
     utils.addVersion({
-      product,
-      rootDir,
       res,
+      project,
+      rootDir: deployRootDir,
       repository,
       branch,
-      project,
+      name,
       version,
       env
     })
